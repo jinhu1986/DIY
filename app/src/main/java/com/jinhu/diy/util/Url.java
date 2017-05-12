@@ -1,4 +1,4 @@
-package com.jinhu.diy;
+package com.jinhu.diy.util;
 
 /**
  * 类的用途：
@@ -23,6 +23,9 @@ public class Url {
     public static final String VALUE_03 = "20";
     public static final String VALUE_04 = "0";
     public static final String VALUE_05 = "1";
+
+
+    public static final String NODE = "http://192.168.23.38:3000/index.json";
 
 
 }

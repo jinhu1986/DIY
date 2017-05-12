@@ -1,13 +1,21 @@
-package com.jinhu.diy;
+package com.jinhu.diy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jinhu.diy.R;
+import com.jinhu.diy.util.Url;
+import com.jinhu.diy.util.OkUtils;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -24,20 +32,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_02;
     private Button btn_03;
     private Button btn_04;
+    private String mTongbu;
+    private Button btn_05;
+    private TextView text_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        Map<String, String> map = new HashMap<>();
+        map.put(Url.KEY, Url.VALUE);
+        OkUtils.getEnqueue(Url.ADD, map, new OkUtils.MyCallback() {
+            @Override
+            public void onSuccess(String result) {
+                text_view.setText(result);
+            }
+
+            @Override
+            public void onError(String errorMsg) {
+                Log.d(TAG, "onError: -----------" + errorMsg);
+            }
+        });
+        btn_01.setOnClickListener(view -> Toast.makeText(this, "222", Toast.LENGTH_SHORT).show());
     }
 
     /**
      * get同步
      */
     public String getTongbu() {
-        HttpUrl httpUrl = HttpUrl.parse(Url.ADD).newBuilder()
-                .addQueryParameter(Url.KEY, Url.VALUE)
+        HttpUrl httpUrl = HttpUrl.parse(Url.NODE).newBuilder()
+//                .addQueryParameter(Url.KEY, Url.VALUE)
                 .build();
 
         Request request = new Request.Builder()
@@ -159,50 +184,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_02.setOnClickListener(this);
         btn_03.setOnClickListener(this);
         btn_04.setOnClickListener(this);
+        btn_05 = (Button) findViewById(R.id.btn_05);
+        btn_05.setOnClickListener(this);
+        text_view = (TextView) findViewById(R.id.text_view);
+        text_view.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_01:
-                new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                final String tongbu = getTongbu();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.d("GET同步", "run: 111111111111111111" + tongbu);
-                                        Toast.makeText(MainActivity.this, tongbu, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                ).start();
-                break;
+/*            case R.id.btn_01:
+                Map<String, String> map = new HashMap<>();
+                map.put(Url.KEY, Url.VALUE);
+                OkUtils.getExcute(Url.ADD, map, new OkUtils.MyCallback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        text_view.setText(result);
+                    }
+
+                    @Override
+                    public void onError(String errorMsg) {
+                        Log.d(TAG, "onError: -----------" + errorMsg);
+                    }
+                });
+                break;*/
             case R.id.btn_02:
                 getYibu();
                 break;
             case R.id.btn_03:
                 new Thread(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                final String tongbu = postTongbu();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.d("POST同步", "run: 22222222222222222" + tongbu);
-                                        Toast.makeText(MainActivity.this, tongbu, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
+
                 ).start();
                 break;
             case R.id.btn_04:
                 postYibu();
+                break;
+            case R.id.btn_05:
+//                if (mTongbu != null) {
+                Intent intent = new Intent(MainActivity.this, RecyclerActivity.class);
+//                    intent.putExtra("json", mTongbu);
+                startActivity(intent);
+//                }
                 break;
         }
     }
