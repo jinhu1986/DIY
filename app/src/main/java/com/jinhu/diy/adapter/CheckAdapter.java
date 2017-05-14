@@ -21,7 +21,7 @@ import java.util.List;
 public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> {
 
     List<CheckBean> list;
-    private OnClickListener l;
+    private OnClickListener mListener;
 
     public CheckAdapter(List<CheckBean> list) {
         this.list = list;
@@ -33,14 +33,13 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> 
 
     }
 
-    public void getOnClickListener(OnClickListener l) {
+    public void setOnClickListener(OnClickListener l) {
 
-        this.l = l;
-
+        this.mListener = l;
 
     }
 
-    public void checkBoxXunaZe(boolean flag) {
+    public void allBoxChecked(boolean flag) {
         for (int i = 0; i < list.size(); i++) {
             list.get(i).check = flag;
         }
@@ -57,32 +56,23 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         CheckBean checkBean = list.get(position);
         holder.mTextView.setText(checkBean.getName());
+        holder.mCheckBox.setChecked(checkBean.check);
+
         holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                boolean b = ((CheckBox) holder.mCheckBox).isChecked();
-
-                if (b) {
-                    list.get(position).check = b;
-                } else {
-                    list.get(position).check = b;
-                }
-
+                boolean checked = holder.mCheckBox.isChecked();
+                checkBean.check = checked;
+                //当所有都选择时，全选自动选择
                 for (int i = 0; i < list.size(); i++) {
-
-                    if (!list.get(i).check) {
-                        l.setOnClickListener(false);
-                        break;
+                    if (list.get(i).check) {
+                        mListener.setOnClickListener(true);
                     } else {
-                        l.setOnClickListener(true);
+                        mListener.setOnClickListener(false);
                     }
                 }
-                //notifyDataSetChanged();
             }
         });
-        holder.mCheckBox.setChecked(list.get(position).check);
-        //notifyDataSetChanged();
     }
 
     @Override

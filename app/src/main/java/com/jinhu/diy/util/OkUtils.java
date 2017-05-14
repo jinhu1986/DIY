@@ -144,7 +144,7 @@ public class OkUtils {
         getClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                callback.onError(e.toString());
+
             }
 
             @Override

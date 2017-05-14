@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CheckActicity">
+        <activity android:name=".activity.ShopActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -24,6 +24,8 @@
         <activity android:name=".activity.MainActivity">
         </activity>
         <activity android:name=".activity.JiesuanAcitivity">
+        </activity>
+        <activity android:name=".activity.CheckActicity">
         </activity>
     </application>
 

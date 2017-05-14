@@ -39,7 +39,7 @@ public class CheckActicity extends AppCompatActivity implements View.OnClickList
         recy_check.setLayoutManager(linearLayoutManager);
         mAdapter = new CheckAdapter(mList);
         recy_check.setAdapter(mAdapter);
-        mAdapter.getOnClickListener(new CheckAdapter.OnClickListener() {
+        mAdapter.setOnClickListener(new CheckAdapter.OnClickListener() {
             @Override
             public void setOnClickListener(boolean flag) {
                 //check_quanxuan.setChecked(flag);
@@ -82,8 +82,8 @@ public class CheckActicity extends AppCompatActivity implements View.OnClickList
                 startActivity(intent);
                 break;
             case R.id.check_quanxuan:
-                boolean b = ((CheckBox) check_quanxuan).isChecked();
-                mAdapter.checkBoxXunaZe(b);
+                boolean flag = check_quanxuan.isChecked();
+                mAdapter.allBoxChecked(flag);
                 mAdapter.notifyDataSetChanged();
                 break;
 

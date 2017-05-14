@@ -28,4 +28,7 @@ public class Url {
     public static final String NODE = "http://192.168.23.38:3000/index.json";
 
 
+    public static final String SHOPING = "http://m.yunifang.com/yunifang/mobile/goods/getall?random=39986&encode=2092d7eb33e8ea0a7a2113f2d9886c90&category_id=17";
+
+
 }
